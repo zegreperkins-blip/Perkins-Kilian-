@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Perkins & Kilian accompagne les marchands de vêtements et chaussures pour mieux présenter, promouvoir et vendre leurs produits.">
+  <title>{% block title %}Perkins & Kilian — Faites grandir vos ventes{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='main.js') }}"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">P<span>&</span>K</span><span>PERKINS <i>&</i> KILIAN<small>CONSEIL • VISIBILITÉ • VENTES</small></span></a>
+  <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  <nav class="nav-links">
+    <a href="{{ url_for('home') }}">Accueil</a><a href="{{ url_for('services') }}">Nos services</a><a href="{{ url_for('contact') }}">Contact</a>
+    {% if current_user %}
+      <a href="{{ url_for('admin_dashboard') if current_role == 'admin' else url_for('dashboard') }}">Mon espace</a><a class="nav-cta" href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Connexion</a><a class="nav-cta" href="{{ url_for('register') }}">Créer un compte</a>
+    {% endif %}
+  </nav>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer class="footer">
+  <div><a class="footer-brand" href="{{ url_for('home') }}">PERKINS <span>&</span> KILIAN</a><p>Votre partenaire pour vendre avec plus de méthode, de visibilité et de confiance.</p></div>
+  <div><strong>Explorer</strong><a href="{{ url_for('services') }}">Nos services</a><a href="{{ url_for('contact') }}">Nous contacter</a><a href="{{ url_for('legal') }}">Mentions légales</a></div>
+  <div><strong>Pour les marchands</strong><a href="{{ url_for('register') }}">Créer un compte</a><a href="{{ url_for('login') }}">Espace client</a></div>
+  <p class="copyright">© 2026 Perkins & Kilian. Tous droits réservés.</p>
+</footer>
+</body></html>
